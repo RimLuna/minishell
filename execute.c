@@ -1,31 +1,45 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
-typedef struct	s_dir
+char	*get_raw(char *s)
 {
-	char		*env_path;
-	int			n;
-	char		**paths;
-}				t_dir;
+	int		i;
+
+	i = 0;
+	while (s[i] && s[i] != '\n')
+		i++;
+	s[i] = 0;
+	return (s);
+}
 
 void	show_prompt()
 {
-	char		command[101];
-	char		*full_path;
+	char		*path;
+    const char	*paths[100];
 	int			i;
+    char		*token;
+	char		command[1024];
+	char		*raw_command;
 
-	full_path = getenv("PATH");
+	path = getenv("PATH");
+    token = strtok(path, ":");
+    paths[0] = token;
 
-	write(1, "$ ", 2);
-	read(1, command, 100);
-	i = 0;
-	while (full_path[i])
+    i = 1;
+    while (token != NULL)
 	{
-		while (full_path[i] != ':')
-			
-	}
-	if (execve())
+        token = strtok(NULL, ":");
+        paths[i] = token;
+        i++;
+    }
+	write(1, "$ ", 2);
+	read(1, command, 1024);
+	raw_command = get_raw(command);
+	if (exists(absolute_path))
+		execve(absolute_path);
+	printf("%s", command);
 }
 
 int		main(void)
