@@ -1,2 +1,5 @@
 # minishell
-Another project to help realize I should quit programming
+I don't even know how to use bash properly
+
+nevermind fucking make one
+## What the fuck
