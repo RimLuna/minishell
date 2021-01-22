@@ -1,6 +1,6 @@
 NAME	=	minishell
 
-SRCS	=	execute.c
+SRCS	=
 
 all		:	$(NAME)
 
