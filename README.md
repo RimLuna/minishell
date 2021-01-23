@@ -24,7 +24,7 @@ well there's the fucking nightmare of expanding *special characters* (**$** for 
 
 where **$var** is replaced by the value of variable var
 #### single quotes
-the entire text strinf is interpreted literally, yay
+the entire text string is interpreted literally, yay
 #### FUCKING spaces, I am regretting ever writing code
 Starting with filenames, why would you put a space in a filename, why why why, fucking idiots, as a *stalinist*, I'd 've not allowed this, along with **80s graphics projects**
 ```
@@ -36,5 +36,37 @@ $ ls
 'eat the rich'
 'I put my low'$'\n''self esteem '$'\n''into filenames'
 ```
-I don't know if we're supposed to interpret newlines in filenames because that's fucking stupid and a hate crime.
+I don't know if we're supposed to interpret newlines in filenames because that's fucking stupid and a hate crime. any character is allowed in filenames but software could misinterpret it and that's ur fault
 
+another thing would be, creating files using variables, with spaces..
+```
+$ filename='Landlords are parasites'
+$ echo $filename 
+Landlords are parasites
+$ ls
+are  Landlords  parasites
+$ mkdir '$filename'
+$ ls
+'$filename'
+$ mkdir "$filename" 
+$ ls
+'Landlords are parasites'
+```
+fucking hell
+## line by line interpretation
+command is executed after pressing Enter, unledd this interaction is explicitely changed
+### split commands to multiples lines using backslashes
+for readability, and to make my life hard
+```
+$ echo Crap\
+> italism
+Crapitalism
+```
+this works only if the **\\** is the last character in the line, kill me
+### semincolons
+```
+$ touch file; echo "communism will win"; cat file
+communism will win
+```
+### double ampersands &&
+different from **;** in that if first command fails, the following commands will ot run
