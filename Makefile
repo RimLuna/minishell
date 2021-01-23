@@ -1,6 +1,6 @@
 NAME	=	minishell
 
-SRCS	=
+SRCS	=	main.c
 
 all		:	$(NAME)
 

@@ -6,6 +6,13 @@ nevermind fucking make one
 This project either sounds overly complicated or overly simple, it's a whole lot of text interpretation, AGAIN
 
 **Take-away: parsing 'till I fucking drop dead, in a bad way**
+
+## how bash handes input
+the size of the input buffer differs dependin on systems,
+
+### canonical vs non-canonical input mode
+
+
 ## bash grammar
 ### literal values
 ```
@@ -87,4 +94,6 @@ The history of all
 hitherto existing society
 is the history of class struggles
 ```
+there are a LOT of fucking ways to use HEREDOC, I don't know which ones we're supposed to interpret yet, cuz of course I didn't read the subject.
+
 
