@@ -69,4 +69,22 @@ $ touch file; echo "communism will win"; cat file
 communism will win
 ```
 ### double ampersands &&
-different from **;** in that if first command fails, the following commands will ot run
+different from **;** in that if first command fails, the following commands will not run
+```
+$ ls /root && ls
+ls: cannot open directory '/root': Permission denied
+```
+using **&&** is safer that using **;** when executing destructive commands
+### heredoc strings
+specify that a certain delimiter denotes start and end of string
+```
+$ cat <<EOF
+> The history of all
+> hitherto existing society
+> is the history of class struggles
+> EOF
+The history of all
+hitherto existing society
+is the history of class struggles
+```
+
