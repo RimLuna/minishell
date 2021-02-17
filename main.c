@@ -75,10 +75,29 @@ void	prompt()
 	char *wd;
 
 	wd = getcwd(buff, 1024);
-	printf("\x1B[31m[");
-	printf("\x1B[32m%s", wd);
-	printf("\x1B[31m]\n");
-	printf("\x1B[33m$ ");
+	printf("\e[1m\e[38;5;14m[");
+	printf("\e[38;5;205m%s", wd);
+	printf("\e[38;5;14m] ");
+	printf("\e[38;5;226m$ \e[39m");
+}
+
+/**
+ * @brief  get the stupid stream of commands
+ * @note   
+ * @param  *stream: 
+ * @retval None
+ */
+char	*input()
+{
+	char	*istream;
+	int		ret;
+	char	*buffer;
+
+	if (!(istream = (char *)calloc(1024, sizeof(char))))
+		return (NULL);
+	while ((ret = read(0, &buffer, 1024) && *buffer != '\n'))
+		
+	return (istream);
 }
 
 /**
@@ -91,8 +110,9 @@ void	prompt()
  */
 int		main(int argc, char *argv[], char *envp[])
 {
-	char		*buffer;
+	char		*istream;
 
 	steal_env(argc, argv, envp);
 	prompt();
+	istream = input();
 }
