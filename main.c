@@ -93,9 +93,9 @@ char	*input()
 	int		ret;
 	char	*buffer;
 
-	if (!(istream = (char *)calloc(1024, sizeof(char))))
+	if (!(istream = (char *)calloc(1, sizeof(char))))
 		return (NULL);
-	while ((ret = read(0, &buffer, 1024) && *buffer != '\n'))
+	while ((ret = read(0, &buffer, 1) && *buffer != '\n'))
 		
 	return (istream);
 }
