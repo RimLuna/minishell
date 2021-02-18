@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "libft.h"
 
 static int		ft_wc(const char *s, char c)
 {
