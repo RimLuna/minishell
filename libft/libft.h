@@ -20,4 +20,8 @@ char	        *ft_strjoin(char const *s1, char const *s2);
 void	        *ft_memmove(void *dst, const void *src, size_t len);
 void            *retarded_realloc(void *p0, size_t size0, size_t size1);
 void            putstr(char *s);
+int             starts_with(char *s1, char *s2);
+int		        ft_memcmp(const void *s1, const void *s2, size_t n);
+char	        *ft_strjoincl(char *s1, char *s2, int free_both);
+int		        ends_with(char *s1, char *s2);
 #endif

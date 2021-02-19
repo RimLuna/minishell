@@ -23,28 +23,26 @@ void	prompt()
  * @note  *stream: size is 1, reallocate it if necessary
  * @retval None
  */
-char	*read_stream(void)
+void	read_stream(char **istream)
 {
-	char	*istream;
 	int		ret;
 	char 	c;
 	int		n;
 	int		i;
 
-	istream = (char *)malloc(STREAM_SIZE * sizeof(char));
+	*istream = (char *)malloc(STREAM_SIZE * sizeof(char));
 	n = 1;
 	i = 0;
 	while ((ret = read(0, &c, 1)) && c != '\n')
 	{
-		*(istream + i) = c;
-		istream = retarded_realloc(istream, n, n+1);
+		*(*istream + i) = c;
+		*istream = retarded_realloc(*istream, n, n+1);
 		i++;
 		n++;
 	}
-	*(istream + i) = 0;
+	*(*istream + i) = 0;
 	if (ret == 0)
 		exit(3);
-	return (istream);
 }
 
 /**
@@ -76,30 +74,94 @@ int			found(char *path)
 }
 
 /**
- * @brief  check if cmd is in path
+ * @brief  run command, dk why I didnt just execute it in that function
+ * @note   
+ * @param  *abs_path: 
+ * @retval 
+ */
+int 	run(char *abs_path)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (!pid)
+		execve(abs_path, NULL, g_env_var);
+	else if (pid < 0)
+	{
+		putstr("Failed to fork..");
+		return (-1);
+	}
+	wait(&pid);
+	return (OK);
+}
+
+/**
+ * @brief  executes shit, checks if we have permission to or not.
+ * @note   
+ * @param  *abs_path: absolute path to command, no args
+ * @param  statbuf: stat structure filled by lstat
+ * mode_t    st_mode; File type and mode
+ * 
+ * @retval 
+ */
+int		execute(char *abs_path, struct stat statbuf)
+{
+	printf("\nABSSSSS :::::: %s\n\n", abs_path);
+	if (statbuf.st_mode)
+		return (run(abs_path));
+	else
+	{
+		putstr("Permission denied.");
+		return (KO);
+	}
+}
+
+/**
+ * @brief  check if cmd is in path, if it is, executes it, sinon, not yet
  * @note   
  * @retval 
  */
-t_status	check_path()
+int		check_in_path(char *istream)
 {
-	char		*path;
-	char		**dirs;
+	char		**paths;
 	int			i;
-	t_status	status;
+	int			status;
+	char		*abs_path;
+	struct stat statbuf;
 
-	path = _getenv("PATH");
-	dirs =  ft_split(path, ':');
+	paths = ft_split(_getenv("PATH"), ':');
+
 	// while (dirs[i])
 		// printf("%s\n", dirs[i++]);
+	// printf("hello\n");
 	i = 0;
-	while (dirs[i])
+	while (paths && paths[i])
 	{
-		printf("%s\n", dirs[i]);
-		if (found(dirs[i]) == 1)
-			return (OK);
+		if (starts_with(istream, paths[i]))
+			abs_path = ft_strdup(istream);
+		else
+		{
+			abs_path = join_slash(paths[i], istream);
+			putstr(abs_path);
+		}
+		if (lstat(abs_path, &statbuf) != -1)
+			return (execute(abs_path, statbuf));
 		i++;
 	}
-	return (KO);
+	putstr("Command not found\n");
+	return (0);
+}
+
+/**
+ * @brief  this tries to execute the input stream
+ * @note   calls to check if istream is in path or not
+ * if yes, then already executed that shit, returned OK
+ * @param  *istream: fucking input stream
+ * @retval 
+ */
+int 	execute_stream(char *istream)
+{
+	return (check_in_path(istream));
 }
 
 /**
@@ -114,17 +176,15 @@ int		main(int argc, char *argv[], char *envp[])
 {
 	char			*istream;
 	char			**args;
-	t_status		status;
+	int		status;
 
 	steal_env(argc, argv, envp);
 	status = OK;
 	while (status == OK)
 	{
 		prompt();
-		istream = read_stream();
-		putstr(istream);
-		if ((status = check_path()) == OK)
-			printf("yay!");
+		read_stream(&istream);
+		status = execute_stream(istream);
 		// args = split_stream(istream);
 		// status = exec_stream();
 		// free(istream);
