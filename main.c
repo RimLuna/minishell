@@ -94,7 +94,7 @@ t_status	check_path()
 	i = 0;
 	while (dirs[i])
 	{
-		// printf("%s\n", dirs[i]);
+		printf("%s\n", dirs[i]);
 		if (found(dirs[i]) == 1)
 			return (OK);
 		i++;
@@ -122,6 +122,7 @@ int		main(int argc, char *argv[], char *envp[])
 	{
 		prompt();
 		istream = read_stream();
+		putstr(istream);
 		if ((status = check_path()) == OK)
 			printf("yay!");
 		// args = split_stream(istream);
