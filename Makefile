@@ -1,4 +1,4 @@
-NAME = ikhane-shell
+NAME = minishell
 
 all: $(NAME)
 
