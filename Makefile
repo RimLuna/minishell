@@ -1,28 +1,30 @@
-NAME = minishell
-
-LFD = ./libft
-LFF = -Wextra
-LFL = libft/libft.a
-CC = clang
-
-CFILES   = $(wildcard *.c)
-OBJFILES = $(CFILES:.c=.o)
+NAME = ikhane-shell
 
 all: $(NAME)
 
-$(NAME): $(OBJFILES)
-	@make -C $(LFD)
-	$(CC) -o $@ $^ $(LFL)
+LIBD = ./lib
+LIB = $(addprefix lib/,cslib.a)
+RM = rm -f
+CC = clang
+CFLAGS = -Wall -Wextra -g
+
+SRCS = shell.c execute_cmd.c builtins.c
+MAIN = main.c
+OBJS = $(SRCS:.c=.o)
+
+$(NAME): $(OBJS)
+	make -C $(LIBD)
+	$(CC) $(MAIN) $^ -o $@ $(LIB)
 
 %.o: %.c
-	$(CC) -c -o $@ $^
+	$(CC) -c $(CFLAGS) -o $@  $<
 
 clean:
-	rm $(OBJFILES)
-	@make clean -C $(LFD)
+	$(RM) $(OBJS)
+	make -C $(LIBD) clean
 
-fclean: clean
-	rm -f $(NAME)
-	@make -C fclean $(LFD)
+fclean:
+	$(RM) $(OBJS) $(NAME)
+	make -C $(LIBD) fclean
 
-re: fclean all 
+re: fclean all
